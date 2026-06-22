@@ -9,7 +9,7 @@
 
 Vega 是一个**以原文 + 独立 metadata 为核心、默认不用 RAG/embedding、规模化后可选语义召回的三层渐进式知识库**，分装为单一二进制，内置 AI Agent，CLI 对外供 coding agent 调用。
 
-## 六大设计支柱
+## 七大设计支柱
 
 | # | 支柱 | 详见 |
 |---|---|---|
@@ -19,6 +19,7 @@ Vega 是一个**以原文 + 独立 metadata 为核心、默认不用 RAG/embeddi
 | 4 | 双链知识图谱 — 五关系类型 + 图遍历 | [03-data-model](./03-data-model.md) |
 | 5 | Inbox 审核 — 默认人工审阅 / YOLO 直入 | [04-inbox-workflow](./04-inbox-workflow.md) |
 | 6 | Core + CLI 双模 — 服务常驻 + CLI 按需查询 | [02-architecture](./02-architecture.md) |
+| 7 | **OKF 一等交换格式 — 导入导出 + Schema 对齐** | [okf-interop](./okf-interop.md) |
 
 ## 阅读路径
 
@@ -39,6 +40,7 @@ Vega 是一个**以原文 + 独立 metadata 为核心、默认不用 RAG/embeddi
 
 ### 工程落地
 10. [10-project-structure](./10-project-structure.md) — 目录 + 约束
+11. [okf-interop](./okf-interop.md) — OKF 导入导出 + Schema 对齐
 
 ## 状态
 

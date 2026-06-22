@@ -51,6 +51,23 @@ vega neighbors <id>                 # 出边 + 入边合并
 vega path <id-a> <id-b>            # 两文档间最短路径
 ```
 
+## OKF 互操作（导入 / 导出）
+
+```
+vega export --okf <path>
+    [--include-inbox]              # 默认仅 reviewed；带上则含 new
+    [--include-archived]           # 默认不含 archived
+    [--id-strategy semantic|uuid]  # 默认 semantic（<tag>/<slug>.md）；uuid 用 documents/<uuid>.md
+    [--no-attachments]             # 仅导 metadata + summary，不含原文
+
+vega import --okf <path>
+    [--yolo]                       # 跳过 inbox，直接 active
+    [--merge-by uuid|title]        # uuid（默认）：vega_id 命中则更新；title：title 相同则更新
+    [--allow-broken-links]         # 默认允许（OKF §5.3 强制）；--no-allow-broken-links 关闭则断链报错
+```
+
+详见 [okf-interop](./okf-interop.md)。
+
 ## 关键行为
 
 | 行为 | 说明 |

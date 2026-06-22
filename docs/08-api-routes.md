@@ -32,4 +32,12 @@ POST /api/chat                          # 发送消息（流式 SSE 响应）
 GET  /api/chat/sessions                 # 会话列表
 GET  /api/chat/sessions/{id}            # 会话历史
 GET  /api/chat/sessions/{id}/export     # 导出会话
+
+# OKF 互操作（导入 / 导出）
+POST /api/export/okf              # body: { path, include_inbox?, include_archived?, id_strategy? }
+                                  # 返回: { path, document_count, attachment_count, bytes }
+POST /api/import/okf              # multipart: bundle path 或 zip 上传
+                                  # body: { yolo?, merge_by?, allow_broken_links? }
+                                  # 返回: { imported: N, updated: N, skipped: N, broken_links: N }
+GET  /api/export/okf/status/<id>  # 异步导出进度（大 bundle 轮询）
 ```

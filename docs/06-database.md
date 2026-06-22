@@ -8,11 +8,14 @@
 -- 文档表
 CREATE TABLE documents (
     id TEXT PRIMARY KEY,            -- UUID
+    type TEXT NOT NULL DEFAULT 'Document',  -- OKF type：Document / Playbook / Reference / ...
     title TEXT NOT NULL,
+    description TEXT,               -- 一句话摘要（OKF description，对齐 summary 语义）
     tags TEXT NOT NULL DEFAULT '[]', -- JSON 数组
     status TEXT NOT NULL DEFAULT 'new',  -- new | reviewed | archived
     source_format TEXT,             -- md | docx | xlsx | pdf | ...
-    summary TEXT,                   -- LLM 生成摘要
+    summary TEXT,                   -- LLM 生成摘要（200 token 内）
+    resource_uri TEXT,              -- 外部资源 URI（OKF resource，可选）
     file_path TEXT,                 -- 原文文件路径（本地或 S3 key）
     created TEXT NOT NULL,
     updated TEXT NOT NULL
@@ -55,15 +58,15 @@ CREATE TABLE chat_messages (
 ```sql
 -- 基础 FTS 索引（默认模式）
 CREATE VIRTUAL TABLE documents_fts USING fts5(
-    title, tags, summary, filename,
+    title, description, tags, summary, filename,
     content='documents',
     content_rowid='rowid'
 );
 
 -- 同步触发器（documents 变更时自动更新 FTS 索引）
 CREATE TRIGGER documents_ai AFTER INSERT ON documents BEGIN
-    INSERT INTO documents_fts(rowid, title, tags, summary, filename)
-    VALUES (new.rowid, new.title, new.tags, new.summary, new.file_path);
+    INSERT INTO documents_fts(rowid, title, description, tags, summary, filename)
+    VALUES (new.rowid, new.title, new.description, new.tags, new.summary, new.file_path);
 END;
 ```
 

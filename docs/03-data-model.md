@@ -7,10 +7,13 @@
 ```json
 {
   "id": "doc-001",
+  "type": "Document",
   "title": "FastAPI 中间件实现原理",
+  "description": "FastAPI 中间件机制与 ASGI 请求生命周期的深度解析。",
   "tags": ["python", "fastapi", "middleware"],
   "status": "reviewed",
   "source_format": "md",
+  "resource_uri": null,
   "created": "2026-05-20",
   "updated": "2026-05-22",
   "links": {
@@ -22,6 +25,23 @@
   }
 }
 ```
+
+**字段说明**：
+
+| 字段 | 必填 | 默认值 | 来源 / 用途 |
+|---|---|---|---|
+| `id` | 是 | UUID | 主键 |
+| `type` | 是 | `Document` | 概念类型，对齐 OKF `type`；用于路由 / 过滤 / 呈现（如 `Document` / `Playbook` / `Reference` / `Metric`） |
+| `title` | 否 | 文件名推导 | 展示名 |
+| `description` | 否 | LLM 生成 | 一句话摘要，对齐 OKF `description`；与 `summary` 语义统一 |
+| `tags` | 否 | LLM 提取 | 跨维度分类，扁平无层级 |
+| `resource_uri` | 否 | null | 外部资源 URI（Jira issue / GitHub PR / 网页 URL），对齐 OKF `resource` |
+| `summary` | 否 | LLM 生成 | 200 token 摘要，导出 OKF 时写入 `description` 字段 |
+| `source_format` | 是 | 自动探测 | 原文扩展名（md/docx/pdf/...） |
+| `status` | 是 | `new` | `new` / `reviewed` / `archived` |
+| `links` | 否 | 空 | 5 种有向关系图谱，见下文 |
+
+> **OKF 对齐**：`type` / `title` / `description` / `tags` / `resource_uri` / `updated` 六个字段与 OKF v0.1 frontmatter 标准字段一一映射，保证导入导出无损。详见 [okf-interop](./okf-interop.md)。
 
 ## 第二层：摘要
 
